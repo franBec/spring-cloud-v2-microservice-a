@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: microserviceA
+microservice-b:
+  baseUrl: localhost
