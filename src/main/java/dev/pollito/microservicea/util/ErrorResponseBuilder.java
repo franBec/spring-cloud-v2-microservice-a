@@ -1,11 +1,8 @@
 package dev.pollito.microservicea.util;
 
-import static dev.pollito.microservicea.util.Constants.SLF4J_MDC_SESSION_ID_KEY;
-
 import dev.pollito.microservicea.models.Error;
+import io.opentelemetry.api.trace.Span;
 import java.time.OffsetDateTime;
-import java.util.UUID;
-import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,7 +21,7 @@ public class ErrorResponseBuilder {
                 .message(errorMessage)
                 .path(getCurrentRequestPath())
                 .timestamp(OffsetDateTime.now())
-                .session(UUID.fromString(MDC.get(SLF4J_MDC_SESSION_ID_KEY))));
+                .trace(Span.current().getSpanContext().getTraceId()));
   }
 
   private static String getCurrentRequestPath() {
