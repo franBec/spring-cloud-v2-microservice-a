@@ -13,11 +13,11 @@ paths:
         - helloWorld
       responses:
         '200':
-          description: Hello World String
+          description: An object with a Hello World String
           content:
             application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/HelloWorld"
         default:
           description: unexpected error
           content:
@@ -26,6 +26,11 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    HelloWorld:
+      type: object
+      properties:
+        content:
+          type: string
     Error:
       type: object
       properties:

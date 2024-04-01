@@ -12,6 +12,6 @@ public class MicroserviceBServiceImpl implements MicroserviceBService {
 
   @Override
   public String helloWorld() {
-    return helloWorldApi.helloWorld();
+    return helloWorldApi.helloWorld().getContent();
   }
 }
