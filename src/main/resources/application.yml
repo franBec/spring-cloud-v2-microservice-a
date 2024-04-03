@@ -13,8 +13,6 @@ management:
       probability: 1.0
 microservice-b:
   baseUrl: http://172.22.224.1:8765/microservice-b
-server:
-  port: 8100
 spring:
   application:
     name: microservice-a
