@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: microservice-a
+  name: microservice-a
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-a
+  template:
+    metadata:
+      labels:
+        app: microservice-a
+    spec:
+      containers:
+      - image: pollitodev/spring-cloud-v2-microservice-a:0.1.0-SNAPSHOT
+        name: spring-cloud-v2-microservice-a
+        resources:
+          limits:
+            cpu: 400m
+            ephemeral-storage: 1Gi
+            memory: 1.5Gi
+          requests:
+            cpu: 300m
+            ephemeral-storage: 1Gi
+            memory: 1Gi
+        securityContext:
+          capabilities:
+            drop:
+              - NET_RAW
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config
+          readOnly: true
+        env:
+          - name: SPRING_CONFIG_ADDITIONAL-LOCATION
+            value: "file:/config/"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: microservice-a
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservice-a
+  name: microservice-a
+  namespace: default
+spec:
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: microservice-a
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: microservice-a
+  namespace: default
+data:
+  application.properties: |-
+    eureka.client.serviceUrl.defaultZone=http://naming-server:8761/eureka/
+    microservice-b.baseUrl=http://api-gateway:8765/microservice-b

@@ -10,7 +10,7 @@
     </parent>
     <groupId>dev.pollito</groupId>
     <artifactId>microservice-a</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <name>microservice-a</name>
     <description>microservice-a</description>
     <properties>
